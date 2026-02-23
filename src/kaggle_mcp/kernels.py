@@ -69,8 +69,8 @@ def register(mcp: FastMCP) -> None:
         req.kernel_slug = kernel_slug
         resp = get_client().kernels.kernels_api_client.get_kernel(req)
         meta = resp.metadata.to_dict() if resp.metadata else {}
-        blob = resp.blob or "(no source)"
-        return f"Metadata: {meta}\n\nSource:\n{blob}"
+        source = resp.blob.source if resp.blob else "(no source)"
+        return f"Metadata: {meta}\n\nSource:\n{source}"
 
     @mcp.tool()
     def kernel_push(

@@ -62,7 +62,7 @@ def _scrape_discussion(discussion_id: int) -> dict:
     """HTML fallback for discussion detail."""
     try:
         resp = httpx.get(
-            f"https://www.kaggle.com/discussions/{discussion_id}",
+            f"https://www.kaggle.com/discussion/{discussion_id}",
             follow_redirects=True,
             timeout=15.0,
         )
@@ -151,4 +151,4 @@ def register(mcp: FastMCP) -> None:
         Args:
             discussion_id: Numeric discussion ID.
         """
-        return f"Comments API not available. View at: https://www.kaggle.com/discussions/{discussion_id}"
+        return f"Comments API not available. View at: https://www.kaggle.com/discussion/{discussion_id}"

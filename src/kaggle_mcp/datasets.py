@@ -89,7 +89,7 @@ def register(mcp: FastMCP) -> None:
         if file_name:
             req.file_name = file_name
         resp = get_client().datasets.dataset_api_client.download_dataset(req)
-        return f"Download URL: {getattr(resp, 'url', str(resp))}"
+        return f"Download URL: {resp.url}"
 
     @mcp.tool()
     def dataset_metadata(owner: str, dataset_slug: str) -> str:

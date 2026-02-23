@@ -93,7 +93,7 @@ def register(mcp: FastMCP) -> None:
             req = ApiDownloadDataFilesRequest()
             req.competition_name = competition
             resp = get_client().competitions.competition_api_client.download_data_files(req)
-        return f"Download URL: {getattr(resp, 'url', str(resp))}"
+        return f"Download URL: {resp.url}"
 
     @mcp.tool()
     def competition_submit(
@@ -163,5 +163,5 @@ def register(mcp: FastMCP) -> None:
             return "No leaderboard data."
         lines = []
         for s in subs[:20]:
-            lines.append(f"{s.team_name} - {s.public_score}")
+            lines.append(f"{s.team_name} - {s.score}")
         return "\n".join(lines)
