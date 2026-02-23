@@ -15,6 +15,25 @@ A full-featured MCP server wrapping the Kaggle API — 21 tools across competiti
 
 </div>
 
+## Why kaggle-mcp?
+
+Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`). Here's how kaggle-mcp compares:
+
+| Feature | kaggle-mcp | [Kaggle Official MCP](https://www.kaggle.com/docs/mcp) |
+|---------|:----------:|:----------:|
+| Total tools | **21** | ~15 |
+| Discussions (search/list/detail/comments) | ✅ 4 tools | ❌ |
+| Dataset creation & file upload | ✅ | ❌ |
+| Architecture | Local (stdio) | Remote HTTP |
+| Install | `uvx kaggle-mcp-server` | `npx mcp-remote` required |
+| Works offline | ✅ | ❌ |
+| Auth | API token | OAuth 2.0 / token |
+| Benchmarks | ❌ | ✅ |
+
+**When to use kaggle-mcp:** You need discussion tools, dataset creation/upload, local execution without remote dependency, or native stdio support in Claude Code.
+
+**When to use the official MCP:** You prefer OAuth 2.0 auth, need benchmark tools, or want zero local installation.
+
 ## Quick Navigation
 
 | Section | Description |

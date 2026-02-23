@@ -15,6 +15,25 @@
 
 </div>
 
+## 为什么选择 kaggle-mcp？
+
+Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`）。以下是 kaggle-mcp 与官方的对比：
+
+| 功能 | kaggle-mcp | [Kaggle 官方 MCP](https://www.kaggle.com/docs/mcp) |
+|------|:----------:|:----------:|
+| 工具总数 | **21** | ~15 |
+| 讨论区（搜索/列表/详情/评论） | ✅ 4 个工具 | ❌ |
+| 数据集创建与文件上传 | ✅ | ❌ |
+| 架构 | 本地（stdio） | 远程 HTTP |
+| 安装 | `uvx kaggle-mcp-server` | 需要 `npx mcp-remote` |
+| 离线可用 | ✅ | ❌ |
+| 认证方式 | API Token | OAuth 2.0 / Token |
+| Benchmarks | ❌ | ✅ |
+
+**适合使用 kaggle-mcp 的场景：** 需要讨论区工具、数据集创建/上传、本地离线执行，或在 Claude Code 中使用原生 stdio 支持。
+
+**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证、需要 Benchmark 工具，或希望零本地安装。
+
 ## 快速导航
 
 | 章节 | 说明 |
