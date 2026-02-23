@@ -134,15 +134,31 @@ def register(mcp: FastMCP) -> None:
 
     @mcp.tool()
     def discussion_detail(discussion_id: int) -> str:
-        """Get discussion content by ID (HTML fallback).
+        """Get discussion content by ID.
 
         Args:
             discussion_id: Numeric discussion ID.
         """
-        d = _scrape_discussion(discussion_id)
-        title = d.get("title", "Unknown")
-        body = d.get("body", "No content")
-        return f"# {title}\n\n{body}"
+        # Get title from HTML, then search by title for full markdown
+        scraped = _scrape_discussion(discussion_id)
+        title = scraped.get("title", "").split("|")[0].strip()
+
+        if title and title not in ("Unknown", "Error"):
+            results = _search_via_sdk(query=title, page_size=20)
+            for d in results:
+                if d.get("id") == discussion_id:
+                    doc = d.get("discussionDocument", {})
+                    author = d.get("ownerUser", {}).get("displayName", "Unknown")
+                    votes = d.get("votes", 0)
+                    body = doc.get("messageMarkdown") or doc.get("messageStripped", "")
+                    forum = doc.get("forumName", "")
+                    t = d.get("title", title)
+                    header = f"# {t}\n\n**Author:** {author} | **Votes:** {votes}"
+                    if forum:
+                        header += f" | **Forum:** {forum}"
+                    return f"{header}\n\n{body}"
+
+        return f"# {title}\n\nView at: https://www.kaggle.com/discussion/{discussion_id}"
 
     @mcp.tool()
     def discussion_comments(discussion_id: int) -> str:
