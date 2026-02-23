@@ -1,7 +1,7 @@
 [project]
 name = "kaggle-mcp"
 version = "0.1.0"
-description = "A full-featured MCP server wrapping the Kaggle API (20 tools across 5 modules)"
+description = "A full-featured MCP server wrapping the Kaggle API — 21 tools across competitions, datasets, kernels, models, and discussions"
 readme = "README.md"
 authors = [
     { name = "Gaorui Zhang", email = "1055783187@qq.com" }
@@ -26,9 +26,9 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/gaoruizhang/kaggle-mcp"
-Repository = "https://github.com/gaoruizhang/kaggle-mcp"
-Issues = "https://github.com/gaoruizhang/kaggle-mcp/issues"
+Homepage = "https://github.com/Galaxy-Dawn/kaggle-mcp"
+Repository = "https://github.com/Galaxy-Dawn/kaggle-mcp"
+Issues = "https://github.com/Galaxy-Dawn/kaggle-mcp/issues"
 
 [project.scripts]
 kaggle-mcp = "kaggle_mcp.server:main"
