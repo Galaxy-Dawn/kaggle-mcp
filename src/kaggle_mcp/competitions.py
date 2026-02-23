@@ -36,7 +36,7 @@ def register(mcp: FastMCP) -> None:
             req.sort_by = sort_by
         req.page = page
 
-        resp = get_client().competitions.list_competitions(req)
+        resp = get_client().competitions.competition_api_client.list_competitions(req)
         comps = resp.competitions
         if not comps:
             return "No competitions found."
@@ -61,7 +61,7 @@ def register(mcp: FastMCP) -> None:
 
         req = ApiListDataFilesRequest()
         req.competition_name = competition
-        resp = get_client().competitions.list_data_files(req)
+        resp = get_client().competitions.competition_api_client.list_data_files(req)
         files = resp.files
         if not files:
             return "No files found."
@@ -84,7 +84,7 @@ def register(mcp: FastMCP) -> None:
             req = ApiDownloadDataFileRequest()
             req.competition_name = competition
             req.file_name = file_name
-            resp = get_client().competitions.download_data_file(req)
+            resp = get_client().competitions.competition_api_client.download_data_file(req)
         else:
             from kagglesdk.competitions.services.competition_api_service import (
                 ApiDownloadDataFilesRequest,
@@ -92,7 +92,7 @@ def register(mcp: FastMCP) -> None:
 
             req = ApiDownloadDataFilesRequest()
             req.competition_name = competition
-            resp = get_client().competitions.download_data_files(req)
+            resp = get_client().competitions.competition_api_client.download_data_files(req)
         return f"Download URL: {getattr(resp, 'url', str(resp))}"
 
     @mcp.tool()
@@ -116,7 +116,7 @@ def register(mcp: FastMCP) -> None:
         req.competition_name = competition
         req.blob_file_tokens = blob_file_tokens
         req.submission_description = message
-        resp = get_client().competitions.create_submission(req)
+        resp = get_client().competitions.competition_api_client.create_submission(req)
         return str(resp.to_dict())
 
     @mcp.tool()
@@ -132,7 +132,7 @@ def register(mcp: FastMCP) -> None:
 
         req = ApiListSubmissionsRequest()
         req.competition_name = competition
-        resp = get_client().competitions.list_submissions(req)
+        resp = get_client().competitions.competition_api_client.list_submissions(req)
         subs = resp.submissions
         if not subs:
             return "No submissions found."
@@ -157,7 +157,7 @@ def register(mcp: FastMCP) -> None:
 
         req = ApiGetLeaderboardRequest()
         req.competition_name = competition
-        resp = get_client().competitions.get_leaderboard(req)
+        resp = get_client().competitions.competition_api_client.get_leaderboard(req)
         subs = resp.submissions
         if not subs:
             return "No leaderboard data."

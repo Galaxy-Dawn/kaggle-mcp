@@ -36,15 +36,14 @@ def register(mcp: FastMCP) -> None:
             req.sort_by = sort_by
         req.page_size = page_size
 
-        resp = get_client().models.list_models(req)
+        resp = get_client().models.model_api_client.list_models(req)
         models = resp.models
         if not models:
             return "No models found."
         lines = []
         for m in models:
             lines.append(
-                f"- **{getattr(m, 'title', m.model_slug)}** "
-                f"(`{m.owner_slug}/{m.model_slug}`)"
+                f"- **{m.title or m.slug}** (`{m.ref}`)"
             )
         return "\n".join(lines)
 
@@ -63,5 +62,5 @@ def register(mcp: FastMCP) -> None:
         req = ApiGetModelRequest()
         req.owner_slug = owner
         req.model_slug = model_slug
-        resp = get_client().models.get_model(req)
+        resp = get_client().models.model_api_client.get_model(req)
         return str(resp.to_dict())

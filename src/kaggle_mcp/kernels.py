@@ -40,7 +40,7 @@ def register(mcp: FastMCP) -> None:
             req.sort_by = sort_by
         req.page = page
 
-        resp = get_client().kernels.list_kernels(req)
+        resp = get_client().kernels.kernels_api_client.list_kernels(req)
         kernels = resp.kernels
         if not kernels:
             return "No kernels found."
@@ -67,7 +67,7 @@ def register(mcp: FastMCP) -> None:
         req = ApiGetKernelRequest()
         req.user_name = user_name
         req.kernel_slug = kernel_slug
-        resp = get_client().kernels.get_kernel(req)
+        resp = get_client().kernels.kernels_api_client.get_kernel(req)
         meta = resp.metadata.to_dict() if resp.metadata else {}
         blob = resp.blob or "(no source)"
         return f"Metadata: {meta}\n\nSource:\n{blob}"
@@ -99,5 +99,5 @@ def register(mcp: FastMCP) -> None:
         req.language = language
         req.kernel_type = kernel_type
         req.is_private = is_private
-        resp = get_client().kernels.save_kernel(req)
+        resp = get_client().kernels.kernels_api_client.save_kernel(req)
         return str(resp.to_dict())

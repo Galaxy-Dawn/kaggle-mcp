@@ -36,7 +36,7 @@ def register(mcp: FastMCP) -> None:
             req.file_type = file_type
         req.page = page
 
-        resp = get_client().datasets.list_datasets(req)
+        resp = get_client().datasets.dataset_api_client.list_datasets(req)
         ds = resp.datasets
         if not ds:
             return "No datasets found."
@@ -63,7 +63,7 @@ def register(mcp: FastMCP) -> None:
         req = ApiListDatasetFilesRequest()
         req.owner_slug = owner
         req.dataset_slug = dataset_slug
-        resp = get_client().datasets.list_dataset_files(req)
+        resp = get_client().datasets.dataset_api_client.list_dataset_files(req)
         files = resp.files
         if not files:
             return "No files found."
@@ -88,7 +88,7 @@ def register(mcp: FastMCP) -> None:
         req.dataset_slug = dataset_slug
         if file_name:
             req.file_name = file_name
-        resp = get_client().datasets.download_dataset(req)
+        resp = get_client().datasets.dataset_api_client.download_dataset(req)
         return f"Download URL: {getattr(resp, 'url', str(resp))}"
 
     @mcp.tool()
@@ -106,7 +106,7 @@ def register(mcp: FastMCP) -> None:
         req = ApiGetDatasetMetadataRequest()
         req.owner_slug = owner
         req.dataset_slug = dataset_slug
-        resp = get_client().datasets.get_dataset_metadata(req)
+        resp = get_client().datasets.dataset_api_client.get_dataset_metadata(req)
         return str(resp.to_dict())
 
     @mcp.tool()
@@ -136,5 +136,5 @@ def register(mcp: FastMCP) -> None:
         req.title = title
         req.license_name = license_name
         req.is_private = is_private
-        resp = get_client().datasets.create_dataset(req)
+        resp = get_client().datasets.dataset_api_client.create_dataset(req)
         return str(resp.to_dict())
