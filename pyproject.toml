@@ -1,0 +1,38 @@
+[project]
+name = "kaggle-mcp"
+version = "0.1.0"
+description = "A full-featured MCP server wrapping the Kaggle API (20 tools across 5 modules)"
+readme = "README.md"
+authors = [
+    { name = "Gaorui Zhang", email = "1055783187@qq.com" }
+]
+requires-python = ">=3.12"
+license = "MIT"
+keywords = ["kaggle", "mcp", "model-context-protocol", "ai", "machine-learning"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "kaggle>=1.6",
+    "mcp[cli]>=1.0",
+    "httpx>=0.27",
+]
+
+[project.urls]
+Homepage = "https://github.com/gaoruizhang/kaggle-mcp"
+Repository = "https://github.com/gaoruizhang/kaggle-mcp"
+Issues = "https://github.com/gaoruizhang/kaggle-mcp/issues"
+
+[project.scripts]
+kaggle-mcp = "kaggle_mcp.server:main"
+
+[build-system]
+requires = ["uv_build>=0.9.24,<0.10.0"]
+build-backend = "uv_build"
