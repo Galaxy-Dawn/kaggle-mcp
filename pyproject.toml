@@ -1,5 +1,5 @@
 [project]
-name = "kaggle-mcp"
+name = "kaggle-mcp-server"
 version = "0.1.0"
 description = "A full-featured MCP server wrapping the Kaggle API — 21 tools across competitions, datasets, kernels, models, and discussions"
 readme = "README.md"
@@ -31,8 +31,11 @@ Repository = "https://github.com/Galaxy-Dawn/kaggle-mcp"
 Issues = "https://github.com/Galaxy-Dawn/kaggle-mcp/issues"
 
 [project.scripts]
-kaggle-mcp = "kaggle_mcp.server:main"
+kaggle-mcp-server = "kaggle_mcp.server:main"
 
 [build-system]
-requires = ["uv_build>=0.9.24,<0.10.0"]
-build-backend = "uv_build"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kaggle_mcp"]

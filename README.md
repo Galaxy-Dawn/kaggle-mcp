@@ -32,13 +32,13 @@ Download the token file from Kaggle settings, it will be saved to `~/.kaggle/kag
 No installation needed. [uvx](https://docs.astral.sh/uv/guides/tools/) runs the server directly:
 
 ```bash
-uvx kaggle-mcp
+uvx kaggle-mcp-server
 ```
 
 ### Using pip
 
 ```bash
-pip install kaggle-mcp
+pip install kaggle-mcp-server
 ```
 
 Then run:
@@ -53,7 +53,7 @@ python -m kaggle_mcp.server
 git clone https://github.com/Galaxy-Dawn/kaggle-mcp.git
 cd kaggle-mcp
 uv sync
-uv run kaggle-mcp
+uv run kaggle-mcp-server
 ```
 
 ## Configuration
@@ -70,7 +70,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "kaggle": {
       "command": "uvx",
-      "args": ["kaggle-mcp"],
+      "args": ["kaggle-mcp-server"],
       "env": {
         "KAGGLE_API_TOKEN": "KGAT_xxxxxxxxxxxx"
       }
@@ -103,7 +103,7 @@ Add to your `claude_desktop_config.json`:
 ### Claude Code
 
 ```bash
-claude mcp add kaggle -- uvx kaggle-mcp
+claude mcp add kaggle -- uvx kaggle-mcp-server
 ```
 
 Or add to your project's `.mcp.json`:
@@ -113,7 +113,7 @@ Or add to your project's `.mcp.json`:
   "mcpServers": {
     "kaggle": {
       "command": "uvx",
-      "args": ["kaggle-mcp"],
+      "args": ["kaggle-mcp-server"],
       "env": {
         "KAGGLE_API_TOKEN": "KGAT_xxxxxxxxxxxx"
       }
@@ -124,7 +124,7 @@ Or add to your project's `.mcp.json`:
 
 ### VS Code
 
-[![Install with UV in VS Code](https://img.shields.io/badge/VS_Code-UV-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp%22%5D%7D) [![Install with UV in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-UV-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp%22%5D%7D)
+[![Install with UV in VS Code](https://img.shields.io/badge/VS_Code-UV-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp-server%22%5D%7D) [![Install with UV in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-UV-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp-server%22%5D%7D)
 
 Add to `.vscode/mcp.json`:
 
@@ -133,7 +133,7 @@ Add to `.vscode/mcp.json`:
   "servers": {
     "kaggle": {
       "command": "uvx",
-      "args": ["kaggle-mcp"],
+      "args": ["kaggle-mcp-server"],
       "env": {
         "KAGGLE_API_TOKEN": "KGAT_xxxxxxxxxxxx"
       }
@@ -151,7 +151,7 @@ Add to `.cursor/mcp.json`:
   "mcpServers": {
     "kaggle": {
       "command": "uvx",
-      "args": ["kaggle-mcp"],
+      "args": ["kaggle-mcp-server"],
       "env": {
         "KAGGLE_API_TOKEN": "KGAT_xxxxxxxxxxxx"
       }
@@ -319,7 +319,7 @@ Add to `.cursor/mcp.json`:
 You can use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) to debug the server:
 
 ```bash
-npx @modelcontextprotocol/inspector uvx kaggle-mcp
+npx @modelcontextprotocol/inspector uvx kaggle-mcp-server
 ```
 
 The Inspector will provide a URL to access debugging tools in your browser.
@@ -330,7 +330,7 @@ The Inspector will provide a URL to access debugging tools in your browser.
 git clone https://github.com/Galaxy-Dawn/kaggle-mcp.git
 cd kaggle-mcp
 uv sync
-uv run kaggle-mcp
+uv run kaggle-mcp-server
 ```
 
 ## Contributing
