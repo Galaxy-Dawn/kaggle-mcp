@@ -1,6 +1,6 @@
 # kaggle-mcp
 
-A full-featured MCP server wrapping the Kaggle API (20 tools across 5 modules).
+A full-featured MCP server wrapping the Kaggle API (21 tools across 5 modules).
 
 ## Installation
 
@@ -31,7 +31,7 @@ Add to your Claude Code settings:
 }
 ```
 
-## Tools (20)
+## Tools (21)
 
 ### Competitions (6)
 
@@ -44,7 +44,7 @@ Add to your Claude Code settings:
 | `competition_submissions` | View submission history |
 | `competition_leaderboard` | View leaderboard |
 
-### Datasets (5)
+### Datasets (6)
 
 | Tool | Description |
 |------|-------------|
@@ -53,6 +53,7 @@ Add to your Claude Code settings:
 | `dataset_download` | Download dataset |
 | `dataset_metadata` | Get metadata |
 | `dataset_create` | Create dataset |
+| `file_upload` | Upload file and get token for dataset_create |
 
 ### Kernels (3)
 
