@@ -1,14 +1,37 @@
+<div align="center">
+
 # kaggle-mcp
 
 <!-- mcp-name: io.github.Galaxy-Dawn/kaggle-mcp -->
 
 A full-featured MCP server wrapping the Kaggle API — 21 tools across competitions, datasets, kernels, models, and discussions.
 
+[![PyPI](https://img.shields.io/pypi/v/kaggle-mcp-server?color=blue)](https://pypi.org/project/kaggle-mcp-server/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![GitHub stars](https://img.shields.io/github/stars/Galaxy-Dawn/kaggle-mcp)](https://github.com/Galaxy-Dawn/kaggle-mcp/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Galaxy-Dawn/kaggle-mcp)](https://github.com/Galaxy-Dawn/kaggle-mcp/commits/master)
+
+[English](README.md) | [中文](README.zh-CN.md)
+
+</div>
+
+## Quick Navigation
+
+| Section | Description |
+|---------|-------------|
+| [Prerequisites](#prerequisites) | Kaggle API token setup |
+| [Installation](#installation) | uvx / pip / source |
+| [Configuration](#configuration) | Claude Desktop, Claude Code, VS Code, Cursor |
+| [Tools (21)](#tools-21) | Competitions, Datasets, Kernels, Models, Discussions |
+| [Debugging](#debugging) | MCP Inspector |
+| [Development](#development) | Local development setup |
+
 ## Prerequisites
 
 A Kaggle API token is required. You can authenticate using either method:
 
-**Option A: API Token (recommended)**
+<details>
+<summary><b>Option A: API Token (recommended)</b></summary>
 
 1. Go to https://www.kaggle.com/settings → API → Create New API Token
 2. Set the environment variable:
@@ -17,7 +40,10 @@ A Kaggle API token is required. You can authenticate using either method:
 export KAGGLE_API_TOKEN="KGAT_xxxxxxxxxxxx"
 ```
 
-**Option B: kaggle.json**
+</details>
+
+<details>
+<summary><b>Option B: kaggle.json</b></summary>
 
 Download the token file from Kaggle settings, it will be saved to `~/.kaggle/kaggle.json`:
 
@@ -25,13 +51,18 @@ Download the token file from Kaggle settings, it will be saved to `~/.kaggle/kag
 {"username": "your_username", "key": "your_api_key"}
 ```
 
+</details>
+
 ## Installation
+
+> **Note:** MCP servers are launched automatically by MCP clients (Claude Code, VS Code, etc.) — **you don't need to run them manually in the terminal**. The commands below are what the client uses under the hood.
 
 ### Using uvx (recommended)
 
-No installation needed. [uvx](https://docs.astral.sh/uv/guides/tools/) runs the server directly:
+No installation needed. [uvx](https://docs.astral.sh/uv/guides/tools/) will automatically download and run the server:
 
 ```bash
+# Used by MCP clients internally; no need to run this yourself
 uvx kaggle-mcp-server
 ```
 
@@ -41,19 +72,12 @@ uvx kaggle-mcp-server
 pip install kaggle-mcp-server
 ```
 
-Then run:
-
-```bash
-python -m kaggle_mcp.server
-```
-
 ### From source
 
 ```bash
 git clone https://github.com/Galaxy-Dawn/kaggle-mcp.git
 cd kaggle-mcp
 uv sync
-uv run kaggle-mcp-server
 ```
 
 ## Configuration
@@ -106,7 +130,7 @@ Add to your `claude_desktop_config.json`:
 claude mcp add kaggle -- uvx kaggle-mcp-server
 ```
 
-Or add to your project's `.mcp.json`:
+Or add to your **project's** `.mcp.json` (not `settings.json`):
 
 ```json
 {
@@ -126,7 +150,7 @@ Or add to your project's `.mcp.json`:
 
 [![Install with UV in VS Code](https://img.shields.io/badge/VS_Code-UV-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white)](https://vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp-server%22%5D%7D) [![Install with UV in VS Code Insiders](https://img.shields.io/badge/VS_Code_Insiders-UV-24bfa5?style=flat-square&logo=visualstudiocode&logoColor=white)](https://insiders.vscode.dev/redirect/mcp/install?name=kaggle&config=%7B%22command%22%3A%22uvx%22%2C%22args%22%3A%5B%22kaggle-mcp-server%22%5D%7D)
 
-Add to `.vscode/mcp.json`:
+Add to `.vscode/mcp.json` (note: the key is **`"servers"`**, not `"mcpServers"`):
 
 ```json
 {
@@ -160,11 +184,23 @@ Add to `.cursor/mcp.json`:
 }
 ```
 
-> **Tip:** If you already have `KAGGLE_API_TOKEN` in your shell environment, you can omit the `"env"` block.
+> **Tip:** If you already have `KAGGLE_API_TOKEN` in your **shell environment** (e.g. in `.bashrc` or `.zshrc`), you can omit the `"env"` block.
 
 ## Tools (21)
 
 ### Competitions (6)
+
+| Tool | Description |
+|------|-------------|
+| `competitions_list` | Search and list Kaggle competitions |
+| `competition_files` | List data files for a competition |
+| `competition_download` | Download competition data files |
+| `competition_submit` | Submit predictions to a competition |
+| `competition_submissions` | View submission history |
+| `competition_leaderboard` | View leaderboard (top 20) |
+
+<details>
+<summary>Parameter details</summary>
 
 1. **competitions_list** — Search and list Kaggle competitions.
    - Inputs:
@@ -202,7 +238,21 @@ Add to `.cursor/mcp.json`:
      - `competition` (string, required): Competition URL suffix.
    - Returns: Top 20 team names and scores.
 
+</details>
+
 ### Datasets (6)
+
+| Tool | Description |
+|------|-------------|
+| `datasets_list` | Search and list Kaggle datasets |
+| `dataset_files` | List files in a dataset |
+| `dataset_download` | Download dataset files |
+| `dataset_metadata` | Get dataset metadata |
+| `dataset_create` | Create a new dataset |
+| `file_upload` | Upload a file to Kaggle |
+
+<details>
+<summary>Parameter details</summary>
 
 1. **datasets_list** — Search and list Kaggle datasets.
    - Inputs:
@@ -247,7 +297,18 @@ Add to `.cursor/mcp.json`:
      - `content` (string, required): File content as text.
    - Returns: File token string.
 
+</details>
+
 ### Kernels (3)
+
+| Tool | Description |
+|------|-------------|
+| `kernels_list` | Search and list notebooks/kernels |
+| `kernel_pull` | Get a notebook's source code |
+| `kernel_push` | Push/save a notebook to Kaggle |
+
+<details>
+<summary>Parameter details</summary>
 
 1. **kernels_list** — Search and list Kaggle notebooks/kernels.
    - Inputs:
@@ -273,7 +334,17 @@ Add to `.cursor/mcp.json`:
      - `is_private` (boolean, optional): Whether notebook is private. Default `true`.
    - Returns: Push result details.
 
+</details>
+
 ### Models (2)
+
+| Tool | Description |
+|------|-------------|
+| `models_list` | Search and list Kaggle models |
+| `model_get` | Get detailed model information |
+
+<details>
+<summary>Parameter details</summary>
 
 1. **models_list** — Search and list Kaggle models.
    - Inputs:
@@ -289,7 +360,19 @@ Add to `.cursor/mcp.json`:
      - `model_slug` (string, required): Model slug/name.
    - Returns: Model metadata dictionary.
 
+</details>
+
 ### Discussions (4)
+
+| Tool | Description |
+|------|-------------|
+| `discussions_search` | Search Kaggle discussions |
+| `discussions_list` | List discussions for a competition/dataset |
+| `discussion_detail` | Get discussion content by ID |
+| `discussion_comments` | Get comments for a discussion |
+
+<details>
+<summary>Parameter details</summary>
 
 1. **discussions_search** — Search Kaggle discussions.
    - Inputs:
@@ -314,6 +397,8 @@ Add to `.cursor/mcp.json`:
      - `discussion_id` (integer, required): Numeric discussion ID.
    - Returns: Link to discussion comments page.
 
+</details>
+
 ## Debugging
 
 You can use the [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) to debug the server:
@@ -330,8 +415,9 @@ The Inspector will provide a URL to access debugging tools in your browser.
 git clone https://github.com/Galaxy-Dawn/kaggle-mcp.git
 cd kaggle-mcp
 uv sync
-uv run kaggle-mcp-server
 ```
+
+Then configure the server in your MCP client using the local path, or test with [MCP Inspector](#debugging).
 
 ## Contributing
 
