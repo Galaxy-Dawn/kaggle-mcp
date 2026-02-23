@@ -1,5 +1,6 @@
 """Dataset tools for Kaggle MCP Server."""
 
+import requests
 from mcp.server.fastmcp import FastMCP
 
 from .client import get_client
@@ -114,21 +115,24 @@ def register(mcp: FastMCP) -> None:
         owner: str,
         slug: str,
         title: str,
+        file_tokens: str = "",
         license_name: str = "CC0-1.0",
         is_private: bool = True,
     ) -> str:
-        """Create a new dataset.
+        """Create a new dataset. Use file_upload first to get file tokens.
 
         Args:
             owner: Owner username.
             slug: Dataset slug.
             title: Dataset title.
+            file_tokens: Comma-separated file tokens from file_upload.
             license_name: License (e.g. CC0-1.0, CC-BY-SA-4.0).
             is_private: Whether dataset is private.
         """
         from kagglesdk.datasets.services.dataset_api_service import (
             ApiCreateDatasetRequest,
         )
+        from kagglesdk.datasets.types.dataset_api_service import ApiDatasetNewFile
 
         req = ApiCreateDatasetRequest()
         req.owner_slug = owner
@@ -136,5 +140,39 @@ def register(mcp: FastMCP) -> None:
         req.title = title
         req.license_name = license_name
         req.is_private = is_private
+        if file_tokens:
+            files = []
+            for t in file_tokens.split(","):
+                f = ApiDatasetNewFile()
+                f.token = t.strip()
+                files.append(f)
+            req.files = files
         resp = get_client().datasets.dataset_api_client.create_dataset(req)
         return str(resp.to_dict())
+
+    @mcp.tool()
+    def file_upload(file_name: str, content: str) -> str:
+        """Upload a file to Kaggle and get a token for dataset_create.
+
+        Args:
+            file_name: File name (e.g. 'data.csv', 'config.json').
+            content: File content as text.
+        """
+        from kagglesdk.datasets.services.dataset_api_service import (
+            ApiUploadDatasetFileRequest,
+        )
+
+        data = content.encode("utf-8")
+        c = get_client()
+        req = ApiUploadDatasetFileRequest()
+        req.file_name = file_name
+        req.content_length = len(data)
+        req.last_modified_epoch_seconds = 0
+        resp = c.datasets.dataset_api_client.upload_dataset_file(req)
+
+        requests.put(
+            resp.create_url,
+            data=data,
+            headers={"Content-Type": "application/octet-stream"},
+        )
+        return f"Token: {resp.token}"
