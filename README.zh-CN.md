@@ -15,10 +15,6 @@
 
 </div>
 
-<p align="center">
-  <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
-</p>
-
 ## 为什么选择 kaggle-mcp？
 
 Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`）。以下是 kaggle-mcp 与官方的对比：
@@ -36,6 +32,10 @@ Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（
 **适合使用 kaggle-mcp 的场景：** 需要讨论区工具、数据集创建/上传，或需要无远程 MCP 依赖的原生 stdio 支持。
 
 **适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证，或希望零本地安装。
+
+<p align="center">
+  <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
+</p>
 
 ## 快速导航
 

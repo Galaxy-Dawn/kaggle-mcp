@@ -15,10 +15,6 @@ A full-featured MCP server wrapping the Kaggle API — 21 tools across competiti
 
 </div>
 
-<p align="center">
-  <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
-</p>
-
 ## Why kaggle-mcp?
 
 Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`). Here's how kaggle-mcp compares:
@@ -36,6 +32,10 @@ Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp)
 **When to use kaggle-mcp:** You need discussion tools, dataset creation/upload, or native stdio support without remote MCP dependency.
 
 **When to use the official MCP:** You prefer OAuth 2.0 auth or want zero local installation.
+
+<p align="center">
+  <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
+</p>
 
 ## Quick Navigation
 
