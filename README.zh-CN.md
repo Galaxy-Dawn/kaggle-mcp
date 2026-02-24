@@ -1,6 +1,6 @@
 <div align="center">
 
-# kaggle-mcp
+<img src="assets/logo.png" alt="kaggle-mcp logo" width="360">
 
 <!-- mcp-name: io.github.Galaxy-Dawn/kaggle-mcp -->
 
@@ -14,6 +14,10 @@
 [English](README.md) | [中文](README.zh-CN.md)
 
 </div>
+
+<p align="center">
+  <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
+</p>
 
 ## 为什么选择 kaggle-mcp？
 

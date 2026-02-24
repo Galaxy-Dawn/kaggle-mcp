@@ -1,0 +1,165 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://excalidraw.com",
+  "elements": [
+    {
+      "type": "rectangle",
+      "x": 50,
+      "y": 50,
+      "width": 200,
+      "height": 220,
+      "strokeColor": "#20BEFF",
+      "backgroundColor": "#e0f4ff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "roundness": { "type": 3 },
+      "id": "clients-box"
+    },
+    {
+      "type": "text",
+      "x": 95,
+      "y": 65,
+      "text": "MCP Clients",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#0c4a6e",
+      "id": "clients-title"
+    },
+    {
+      "type": "text",
+      "x": 90,
+      "y": 105,
+      "text": "Claude Desktop\nClaude Code\nVS Code\nCursor\nWindsurf",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#334155",
+      "id": "clients-list"
+    },
+    {
+      "type": "arrow",
+      "x": 260,
+      "y": 140,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#20BEFF",
+      "strokeWidth": 2,
+      "points": [[0, 0], [80, 0]],
+      "id": "arrow-stdio"
+    },
+    {
+      "type": "text",
+      "x": 272,
+      "y": 115,
+      "text": "stdio\nMCP Protocol",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#20BEFF",
+      "textAlign": "center",
+      "id": "label-stdio"
+    },
+    {
+      "type": "rectangle",
+      "x": 350,
+      "y": 50,
+      "width": 220,
+      "height": 220,
+      "strokeColor": "#20BEFF",
+      "backgroundColor": "#bae6fd",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "roundness": { "type": 3 },
+      "id": "mcp-box"
+    },
+    {
+      "type": "text",
+      "x": 405,
+      "y": 65,
+      "text": "kaggle-mcp",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#0369a1",
+      "id": "mcp-title"
+    },
+    {
+      "type": "text",
+      "x": 395,
+      "y": 105,
+      "text": "Competitions\nDatasets\nNotebooks\nModels\nDiscussions",
+      "fontSize": 16,
+      "fontFamily": 1,
+      "strokeColor": "#334155",
+      "id": "mcp-tools"
+    },
+    {
+      "type": "text",
+      "x": 430,
+      "y": 240,
+      "text": "21 tools",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#0369a1",
+      "id": "mcp-count"
+    },
+    {
+      "type": "arrow",
+      "x": 580,
+      "y": 140,
+      "width": 80,
+      "height": 0,
+      "strokeColor": "#20BEFF",
+      "strokeWidth": 2,
+      "points": [[0, 0], [80, 0]],
+      "id": "arrow-https"
+    },
+    {
+      "type": "text",
+      "x": 592,
+      "y": 115,
+      "text": "HTTPS\nREST API",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#20BEFF",
+      "textAlign": "center",
+      "id": "label-https"
+    },
+    {
+      "type": "rectangle",
+      "x": 670,
+      "y": 70,
+      "width": 190,
+      "height": 180,
+      "strokeColor": "#20BEFF",
+      "backgroundColor": "#e0f4ff",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "roundness": { "type": 3 },
+      "id": "kaggle-box"
+    },
+    {
+      "type": "text",
+      "x": 720,
+      "y": 90,
+      "text": "Kaggle API",
+      "fontSize": 20,
+      "fontFamily": 1,
+      "strokeColor": "#0c4a6e",
+      "id": "kaggle-title"
+    },
+    {
+      "type": "text",
+      "x": 710,
+      "y": 135,
+      "text": "kaggle.com\n\nCompetitions\nDatasets & Models\nCommunity",
+      "fontSize": 14,
+      "fontFamily": 1,
+      "strokeColor": "#64748b",
+      "id": "kaggle-desc"
+    }
+  ],
+  "appState": {
+    "viewBackgroundColor": "#ffffff",
+    "gridSize": null
+  },
+  "files": {}
+}
