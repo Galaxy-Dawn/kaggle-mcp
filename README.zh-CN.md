@@ -26,13 +26,12 @@ Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（
 | 数据集创建与文件上传 | ✅ | ❌ |
 | 架构 | 本地（stdio） | 远程 HTTP |
 | 安装 | `uvx kaggle-mcp-server` | 需要 `npx mcp-remote` |
-| 离线可用 | ✅ | ❌ |
+| 无远程 MCP 依赖 | ✅ | ❌ |
 | 认证方式 | API Token | OAuth 2.0 / Token |
-| Benchmarks | ❌ | ✅ |
 
-**适合使用 kaggle-mcp 的场景：** 需要讨论区工具、数据集创建/上传、本地离线执行，或在 Claude Code 中使用原生 stdio 支持。
+**适合使用 kaggle-mcp 的场景：** 需要讨论区工具、数据集创建/上传，或需要无远程 MCP 依赖的原生 stdio 支持。
 
-**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证、需要 Benchmark 工具，或希望零本地安装。
+**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证，或希望零本地安装。
 
 ## 快速导航
 
