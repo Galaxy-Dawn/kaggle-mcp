@@ -17,25 +17,14 @@ A full-featured MCP server wrapping the Kaggle API — 51 tools across competiti
 
 ## Why kaggle-mcp?
 
-Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`). Here's how kaggle-mcp compares:
+Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`) with 51+ tools covering competitions, datasets, notebooks, models, and benchmarks — a solid foundation for most Kaggle workflows.
 
-| Feature | kaggle-mcp | [Kaggle Official MCP](https://www.kaggle.com/docs/mcp) |
-|---------|:----------:|:----------:|
-| Total tools | **51** | **51+** |
-| Discussions (10 tools) | ✅ | ❌ |
-| Kernel session management | ✅ | ✅ |
-| Model CRUD + instances | ✅ | ✅ |
-| Dataset creation & versioning | ✅ | ✅ |
-| Benchmark leaderboard | ✅ | ✅ |
-| Benchmark task creation (AI) | ❌ | ✅ |
-| Architecture | Local (stdio) | Remote HTTP |
-| Install | `uvx kaggle-mcp-server` | `npx mcp-remote` required |
-| No remote MCP dependency | ✅ | ❌ |
-| Auth | API token | OAuth 2.0 / token |
+**kaggle-mcp extends that foundation** with what the official server is missing: **10 discussion tools**. You can search discussions, browse by source type, filter competition discussions by recency, read solution write-ups, explore trending topics, and more — none of which are available in the official MCP.
 
-**When to use kaggle-mcp:** You need discussion tools (the official MCP has none), or prefer local stdio without a remote MCP dependency.
+It also runs locally over stdio, so there's no remote MCP dependency and no `npx mcp-remote` required.
 
-**When to use the official MCP:** You prefer OAuth 2.0 auth, want zero local installation, or need AI-powered benchmark task creation.
+**Use kaggle-mcp** if you need discussion tools or prefer a local stdio setup without remote dependencies.
+**Use the official MCP** if you prefer OAuth 2.0 auth or want zero local installation.
 
 <p align="center">
   <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">

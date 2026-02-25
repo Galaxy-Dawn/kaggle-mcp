@@ -17,25 +17,14 @@
 
 ## 为什么选择 kaggle-mcp？
 
-Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`）。以下是 kaggle-mcp 与官方的对比：
+Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`），涵盖竞赛、数据集、Notebook、模型和基准测试共 51+ 个工具，已能满足大多数 Kaggle 工作流需求。
 
-| 功能 | kaggle-mcp | [Kaggle 官方 MCP](https://www.kaggle.com/docs/mcp) |
-|------|:----------:|:----------:|
-| 工具总数 | **51** | **51+** |
-| 讨论区（10 个工具） | ✅ | ❌ |
-| Kernel Session 管理 | ✅ | ✅ |
-| 模型 CRUD + 实例管理 | ✅ | ✅ |
-| 数据集创建/版本管理 | ✅ | ✅ |
-| 基准测试排行榜 | ✅ | ✅ |
-| AI 驱动的基准任务创建 | ❌ | ✅ |
-| 架构 | 本地（stdio） | 远程 HTTP |
-| 安装 | `uvx kaggle-mcp-server` | 需要 `npx mcp-remote` |
-| 无远程 MCP 依赖 | ✅ | ❌ |
-| 认证方式 | API Token | OAuth 2.0 / Token |
+**kaggle-mcp 在此基础上进行了扩展**，补充了官方服务器缺失的能力：**10 个讨论区工具**。你可以搜索讨论、按来源类型浏览、按时间过滤竞赛讨论、阅读解决方案 write-ups、探索热门话题等——这些功能在官方 MCP 中完全没有。
 
-**适合使用 kaggle-mcp 的场景：** 需要讨论区工具（官方 MCP 完全不支持），或希望使用无远程依赖的本地 stdio 架构。
+此外，kaggle-mcp 以本地 stdio 方式运行，无需远程 MCP 依赖，也不需要 `npx mcp-remote`。
 
-**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证、希望零本地安装，或需要 AI 驱动的基准任务创建功能。
+**适合使用 kaggle-mcp 的场景：** 需要讨论区工具，或希望使用无远程依赖的本地 stdio 架构。
+**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证，或希望零本地安装。
 
 <p align="center">
   <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
