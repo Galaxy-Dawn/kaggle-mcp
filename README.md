@@ -4,7 +4,7 @@
 
 <!-- mcp-name: io.github.Galaxy-Dawn/kaggle-mcp -->
 
-A full-featured MCP server wrapping the Kaggle API — 21 tools across competitions, datasets, kernels, models, and discussions.
+A full-featured MCP server wrapping the Kaggle API — 51 tools across competitions, datasets, kernels, models, benchmarks, and discussions.
 
 [![PyPI](https://img.shields.io/pypi/v/kaggle-mcp-server?color=blue)](https://pypi.org/project/kaggle-mcp-server/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -21,9 +21,12 @@ Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp)
 
 | Feature | kaggle-mcp | [Kaggle Official MCP](https://www.kaggle.com/docs/mcp) |
 |---------|:----------:|:----------:|
-| Total tools | **21** | ~15 |
-| Discussions (search/list/detail/comments) | ✅ 4 tools | ❌ |
+| Total tools | **51** | ~15 |
+| Discussions (10 tools) | ✅ | ❌ |
+| Kernel session management | ✅ | ❌ |
+| Model CRUD + instances | ✅ | ❌ |
 | Dataset creation & file upload | ✅ | ❌ |
+| Benchmark leaderboard | ✅ | ❌ |
 | Architecture | Local (stdio) | Remote HTTP |
 | Install | `uvx kaggle-mcp-server` | `npx mcp-remote` required |
 | No remote MCP dependency | ✅ | ❌ |
@@ -44,7 +47,7 @@ Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp)
 | [Prerequisites](#prerequisites) | Kaggle API token setup |
 | [Installation](#installation) | uvx / pip / source |
 | [Configuration](#configuration) | Claude Desktop, Claude Code, VS Code, Cursor |
-| [Tools (21)](#tools-21) | Competitions, Datasets, Kernels, Models, Discussions |
+| [Tools (51)](#tools-51) | Competitions, Datasets, Kernels, Models, Benchmarks, Discussions |
 | [Debugging](#debugging) | MCP Inspector |
 | [Development](#development) | Local development setup |
 
@@ -208,9 +211,9 @@ Add to `.cursor/mcp.json`:
 
 > **Tip:** If you already have `KAGGLE_API_TOKEN` in your **shell environment** (e.g. in `.bashrc` or `.zshrc`), you can omit the `"env"` block.
 
-## Tools (21)
+## Tools (51)
 
-### Competitions (6)
+### Competitions (10)
 
 | Tool | Description |
 |------|-------------|
@@ -220,49 +223,28 @@ Add to `.cursor/mcp.json`:
 | `competition_submit` | Submit predictions to a competition |
 | `competition_submissions` | View submission history |
 | `competition_leaderboard` | View leaderboard (top 20) |
+| `competition_get` | Get detailed competition info |
+| `competition_data_summary` | Get data files summary |
+| `competition_get_submission` | Get details for a single submission |
+| `competition_leaderboard_download` | Download full leaderboard as CSV |
 
 <details>
 <summary>Parameter details</summary>
 
-1. **competitions_list** — Search and list Kaggle competitions.
-   - Inputs:
-     - `search` (string, optional): Search term to filter competitions.
-     - `category` (string, optional): Filter by category (e.g. `featured`, `research`, `playground`).
-     - `sort_by` (string, optional): Sort order (`latestDeadline`, `numberOfTeams`, `recentlyCreated`).
-     - `page` (integer, optional): Page number for pagination. Default `1`.
-   - Returns: List of competitions with title, ref, category, deadline, and team count.
-
-2. **competition_files** — List data files for a competition.
-   - Inputs:
-     - `competition` (string, required): Competition URL suffix (e.g. `titanic`).
-   - Returns: List of file names and sizes.
-
-3. **competition_download** — Download competition data files. Returns download URL.
-   - Inputs:
-     - `competition` (string, required): Competition URL suffix.
-     - `file_name` (string, optional): Specific file to download. Empty for all files.
-   - Returns: Download URL.
-
-4. **competition_submit** — Submit predictions to a competition.
-   - Inputs:
-     - `competition` (string, required): Competition URL suffix.
-     - `blob_file_tokens` (string, required): Blob file token from upload.
-     - `message` (string, required): Submission description message.
-   - Returns: Submission result details.
-
-5. **competition_submissions** — View submission history for a competition.
-   - Inputs:
-     - `competition` (string, required): Competition URL suffix.
-   - Returns: List of submissions with date, score, status, and description.
-
-6. **competition_leaderboard** — View competition leaderboard (top 20).
-   - Inputs:
-     - `competition` (string, required): Competition URL suffix.
-   - Returns: Top 20 team names and scores.
+1. **competitions_list** — `search`, `category`, `sort_by` (`latestDeadline`/`numberOfTeams`/`recentlyCreated`), `page`
+2. **competition_files** — `competition` (URL suffix, e.g. `titanic`)
+3. **competition_download** — `competition`, `file_name` (optional, empty = all files) → download URL
+4. **competition_submit** — `competition`, `blob_file_tokens`, `message`
+5. **competition_submissions** — `competition`
+6. **competition_leaderboard** — `competition` → top 20 teams and scores
+7. **competition_get** — `competition` → full details (deadline, reward, evaluation metric, etc.)
+8. **competition_data_summary** — `competition` → data files summary dict
+9. **competition_get_submission** — `competition`, `submission_id` (integer)
+10. **competition_leaderboard_download** — `competition` → download URL for full leaderboard CSV
 
 </details>
 
-### Datasets (6)
+### Datasets (11)
 
 | Tool | Description |
 |------|-------------|
@@ -272,119 +254,103 @@ Add to `.cursor/mcp.json`:
 | `dataset_metadata` | Get dataset metadata |
 | `dataset_create` | Create a new dataset |
 | `file_upload` | Upload a file to Kaggle |
+| `dataset_get` | Get full dataset information |
+| `dataset_create_version` | Create a new dataset version |
+| `dataset_update_metadata` | Update dataset title/description |
+| `dataset_delete` | Delete a dataset |
+| `dataset_download_file` | Download a single file from a dataset |
 
 <details>
 <summary>Parameter details</summary>
 
-1. **datasets_list** — Search and list Kaggle datasets.
-   - Inputs:
-     - `search` (string, optional): Search term.
-     - `sort_by` (string, optional): Sort order (`hottest`, `votes`, `updated`, `active`).
-     - `file_type` (string, optional): Filter by file type (`csv`, `json`, `sqlite`, etc).
-     - `page` (integer, optional): Page number. Default `1`.
-   - Returns: List of datasets with title, ref, size, and download count.
-
-2. **dataset_files** — List files in a dataset.
-   - Inputs:
-     - `owner` (string, required): Dataset owner username.
-     - `dataset_slug` (string, required): Dataset slug name.
-   - Returns: List of file names and sizes.
-
-3. **dataset_download** — Download dataset files. Returns download URL.
-   - Inputs:
-     - `owner` (string, required): Dataset owner username.
-     - `dataset_slug` (string, required): Dataset slug name.
-     - `file_name` (string, optional): Specific file. Empty for all.
-   - Returns: Download URL.
-
-4. **dataset_metadata** — Get dataset metadata.
-   - Inputs:
-     - `owner` (string, required): Dataset owner username.
-     - `dataset_slug` (string, required): Dataset slug name.
-   - Returns: Dataset metadata dictionary.
-
-5. **dataset_create** — Create a new dataset. Use `file_upload` first to get file tokens.
-   - Inputs:
-     - `owner` (string, required): Owner username.
-     - `slug` (string, required): Dataset slug.
-     - `title` (string, required): Dataset title.
-     - `file_tokens` (string, optional): Comma-separated file tokens from `file_upload`.
-     - `license_name` (string, optional): License (e.g. `CC0-1.0`, `CC-BY-SA-4.0`). Default `CC0-1.0`.
-     - `is_private` (boolean, optional): Whether dataset is private. Default `true`.
-   - Returns: Creation result details.
-
-6. **file_upload** — Upload a file to Kaggle and get a token for `dataset_create`.
-   - Inputs:
-     - `file_name` (string, required): File name (e.g. `data.csv`, `config.json`).
-     - `content` (string, required): File content as text.
-   - Returns: File token string.
+1. **datasets_list** — `search`, `sort_by` (`hottest`/`votes`/`updated`/`active`), `file_type`, `page`
+2. **dataset_files** — `owner`, `dataset_slug`
+3. **dataset_download** — `owner`, `dataset_slug`, `file_name` (optional) → download URL
+4. **dataset_metadata** — `owner`, `dataset_slug` → metadata dict
+5. **dataset_create** — `owner`, `slug`, `title`, `file_tokens` (from `file_upload`), `license_name`, `is_private`
+6. **file_upload** — `file_name`, `content` → file token for use in `dataset_create`
+7. **dataset_get** — `owner`, `dataset_slug` → full dataset details
+8. **dataset_create_version** — `owner`, `dataset_slug`, `version_notes`, `file_tokens`
+9. **dataset_update_metadata** — `owner`, `dataset_slug`, `title`, `description`
+10. **dataset_delete** — `owner`, `dataset_slug`
+11. **dataset_download_file** — `owner`, `dataset_slug`, `file_name` → download URL
 
 </details>
 
-### Kernels (3)
+### Kernels (9)
 
 | Tool | Description |
 |------|-------------|
 | `kernels_list` | Search and list notebooks/kernels |
 | `kernel_pull` | Get a notebook's source code |
 | `kernel_push` | Push/save a notebook to Kaggle |
+| `kernel_output` | Get kernel output download URL |
+| `kernel_session_create` | Create an interactive kernel session |
+| `kernel_session_status` | Get kernel session execution status |
+| `kernel_session_output` | List output files from a kernel session |
+| `kernel_session_cancel` | Cancel a running kernel session |
+| `competition_top_kernels` | List top public kernels for a competition sorted by score |
 
 <details>
 <summary>Parameter details</summary>
 
-1. **kernels_list** — Search and list Kaggle notebooks/kernels.
-   - Inputs:
-     - `search` (string, optional): Search term.
-     - `competition` (string, optional): Filter by competition.
-     - `dataset` (string, optional): Filter by dataset.
-     - `sort_by` (string, optional): Sort order (`hotness`, `commentCount`, `dateCreated`, `dateRun`, `relevance`, `voteCount`).
-     - `page` (integer, optional): Page number. Default `1`.
-   - Returns: List of kernels with title, ref, votes, and language.
-
-2. **kernel_pull** — Get a notebook's source code.
-   - Inputs:
-     - `user_name` (string, required): Kernel owner username.
-     - `kernel_slug` (string, required): Kernel slug name.
-   - Returns: Kernel metadata and source code.
-
-3. **kernel_push** — Push/save a notebook to Kaggle.
-   - Inputs:
-     - `title` (string, required): Notebook title.
-     - `text` (string, required): Notebook source code.
-     - `language` (string, optional): Language (`python`, `r`). Default `python`.
-     - `kernel_type` (string, optional): Type (`notebook`, `script`). Default `notebook`.
-     - `is_private` (boolean, optional): Whether notebook is private. Default `true`.
-   - Returns: Push result details.
+1. **kernels_list** — `search`, `competition`, `dataset`, `sort_by` (`hotness`/`commentCount`/`dateCreated`/`dateRun`/`relevance`/`voteCount`), `page`
+2. **kernel_pull** — `user_name`, `kernel_slug` → metadata + source code
+3. **kernel_push** — `title`, `text`, `language` (`python`/`r`), `kernel_type` (`notebook`/`script`), `is_private`
+4. **kernel_output** — `user_name`, `kernel_slug` → download URL
+5. **kernel_session_create** — `user_name`, `kernel_slug` → session details
+6. **kernel_session_status** — `user_name`, `kernel_slug` → status + failure message if any
+7. **kernel_session_output** — `user_name`, `kernel_slug` → list of output files with URLs
+8. **kernel_session_cancel** — `user_name`, `kernel_slug`
+9. **competition_top_kernels** — `competition`, `sort_by` (`scoreDescending`/`scoreAscending`/`voteCount`/`hotness`/`dateCreated`/`dateRun`/`commentCount`), `page_size` — Note: Kaggle API does not expose score values for active competitions; scores are extracted from notebook titles where authors include them (e.g. `[0.371]`, `LB:0.95`)
 
 </details>
 
-### Models (2)
+### Models (10)
 
 | Tool | Description |
 |------|-------------|
 | `models_list` | Search and list Kaggle models |
 | `model_get` | Get detailed model information |
+| `model_create` | Create a new model |
+| `model_update` | Update model metadata |
+| `model_delete` | Delete a model |
+| `model_instances_list` | List all instances of a model |
+| `model_instance_get` | Get a specific model instance |
+| `model_instance_create` | Create a new model instance |
+| `model_instance_versions` | List versions of a model instance |
+| `model_instance_version_create` | Create a new model instance version |
 
 <details>
 <summary>Parameter details</summary>
 
-1. **models_list** — Search and list Kaggle models.
-   - Inputs:
-     - `search` (string, optional): Search term.
-     - `owner` (string, optional): Filter by owner.
-     - `sort_by` (string, optional): Sort order (`hotness`, `downloadCount`, `createTime`, `updateTime`).
-     - `page_size` (integer, optional): Number of results per page. Default `20`.
-   - Returns: List of models with title and ref.
-
-2. **model_get** — Get detailed information about a specific model.
-   - Inputs:
-     - `owner` (string, required): Model owner username.
-     - `model_slug` (string, required): Model slug/name.
-   - Returns: Model metadata dictionary.
+1. **models_list** — `search`, `owner`, `sort_by` (`hotness`/`downloadCount`/`createTime`/`updateTime`), `page_size`
+2. **model_get** — `owner`, `model_slug`
+3. **model_create** — `owner`, `slug`, `title`, `subtitle`, `is_private`, `description`
+4. **model_update** — `owner`, `model_slug`, `title`, `subtitle`, `description`
+5. **model_delete** — `owner`, `model_slug`
+6. **model_instances_list** — `owner`, `model_slug`
+7. **model_instance_get** — `owner`, `model_slug`, `framework`, `instance_slug`
+8. **model_instance_create** — `owner`, `model_slug`, `framework`, `instance_slug`, `license_name`, `is_private`
+9. **model_instance_versions** — `owner`, `model_slug`, `framework`, `instance_slug`
+10. **model_instance_version_create** — `owner`, `model_slug`, `framework`, `instance_slug`, `version_notes`, `file_tokens`
 
 </details>
 
-### Discussions (4)
+### Benchmarks (1)
+
+| Tool | Description |
+|------|-------------|
+| `benchmark_leaderboard` | Get benchmark leaderboard |
+
+<details>
+<summary>Parameter details</summary>
+
+1. **benchmark_leaderboard** — `owner_slug`, `benchmark_slug`, `version_number` (optional, default `0`)
+
+</details>
+
+### Discussions (10)
 
 | Tool | Description |
 |------|-------------|
@@ -392,32 +358,26 @@ Add to `.cursor/mcp.json`:
 | `discussions_list` | List discussions for a competition/dataset |
 | `discussion_detail` | Get discussion content by ID |
 | `discussion_comments` | Get comments for a discussion |
+| `discussion_comments_search` | Search comments across all discussions |
+| `discussions_by_source` | Browse discussions by source type |
+| `discussions_solutions` | Browse competition solution write-ups |
+| `discussions_writeups` | Browse Kaggle write-ups by type |
+| `discussions_trending` | Browse trending discussions |
+| `discussions_my` | List the current user's discussions |
 
 <details>
 <summary>Parameter details</summary>
 
-1. **discussions_search** — Search Kaggle discussions.
-   - Inputs:
-     - `query` (string, required): Search query string.
-     - `page_size` (integer, optional): Number of results (max 50). Default `20`.
-   - Returns: List of discussions with ID, title, and votes.
-
-2. **discussions_list** — List discussions for a competition or dataset.
-   - Inputs:
-     - `competition` (string, optional): Competition slug to filter.
-     - `dataset` (string, optional): Dataset ref to filter.
-     - `page_size` (integer, optional): Number of results (max 50). Default `20`.
-   - Returns: List of discussions with ID, title, and votes.
-
-3. **discussion_detail** — Get discussion content by ID.
-   - Inputs:
-     - `discussion_id` (integer, required): Numeric discussion ID.
-   - Returns: Discussion title, author, votes, forum, and body content.
-
-4. **discussion_comments** — Get comments for a discussion.
-   - Inputs:
-     - `discussion_id` (integer, required): Numeric discussion ID.
-   - Returns: Link to discussion comments page.
+1. **discussions_search** — `query`, `sort_by` (`hotness`/`votes`/`comments`/`created`/`updated`), `source_type`, `page_size`
+2. **discussions_list** — `competition`, `dataset`, `page_size`, `since_hours` (filter to last N hours), `new_only` (filter by `createTime` vs `updateTime`)
+3. **discussion_detail** — `discussion_id` (integer), `competition` (recommended for accuracy)
+4. **discussion_comments** — `discussion_id`, `page_size`
+5. **discussion_comments_search** — `query`, `page_size`
+6. **discussions_by_source** — `source_type` (`competition`/`dataset`/`kernel`/`site_forum`/`competition_solution`/`model`/`write_up`/`learn_track`/`benchmark`/`benchmark_task`), `query`, `sort_by`, `page_size`
+7. **discussions_solutions** — `competition` (optional slug), `sort_by`, `page_size`
+8. **discussions_writeups** — `write_up_type` (`knowledge`/`competition_solution`/`hackathon`/`personal_project`/`forum_topic`/`blog`), `query`, `page_size`
+9. **discussions_trending** — `source_type` (optional), `page_size`
+10. **discussions_my** — `page_size`
 
 </details>
 

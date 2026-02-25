@@ -36,7 +36,10 @@ def register(mcp: FastMCP) -> None:
             req.sort_by = sort_by
         req.page = page
 
-        resp = get_client().competitions.competition_api_client.list_competitions(req)
+        try:
+            resp = get_client().competitions.competition_api_client.list_competitions(req)
+        except Exception as e:
+            return f"Error listing competitions: {e}"
         comps = resp.competitions
         if not comps:
             return "No competitions found."
@@ -61,7 +64,10 @@ def register(mcp: FastMCP) -> None:
 
         req = ApiListDataFilesRequest()
         req.competition_name = competition
-        resp = get_client().competitions.competition_api_client.list_data_files(req)
+        try:
+            resp = get_client().competitions.competition_api_client.list_data_files(req)
+        except Exception as e:
+            return f"Error listing competition files: {e}"
         files = resp.files
         if not files:
             return "No files found."
@@ -157,7 +163,10 @@ def register(mcp: FastMCP) -> None:
 
         req = ApiGetLeaderboardRequest()
         req.competition_name = competition
-        resp = get_client().competitions.competition_api_client.get_leaderboard(req)
+        try:
+            resp = get_client().competitions.competition_api_client.get_leaderboard(req)
+        except Exception as e:
+            return f"Error fetching leaderboard: {e}"
         subs = resp.submissions
         if not subs:
             return "No leaderboard data."
@@ -165,3 +174,123 @@ def register(mcp: FastMCP) -> None:
         for s in subs[:20]:
             lines.append(f"{s.team_name} - {s.score}")
         return "\n".join(lines)
+
+    @mcp.tool()
+    def competition_get(competition: str) -> str:
+        """Get detailed competition info.
+
+        Args:
+            competition: Competition URL suffix (e.g. 'titanic').
+        """
+        from kagglesdk.competitions.services.competition_api_service import (
+            ApiGetCompetitionRequest,
+            ApiListCompetitionsRequest,
+        )
+
+        # Try the direct endpoint first
+        try:
+            req = ApiGetCompetitionRequest()
+            req.competition_name = competition
+            c = get_client().competitions.competition_api_client.get_competition(req)
+            lines = [
+                f"**{c.title}** (`{c.ref}`)",
+                f"URL: {c.url}",
+                f"Category: {c.category} | Reward: {c.reward}",
+                f"Deadline: {c.deadline} | Teams: {c.team_count}",
+                f"Evaluation: {c.evaluation_metric}",
+                f"Max daily submissions: {c.max_daily_submissions}",
+                f"Max team size: {c.max_team_size}",
+                f"Kernels only: {c.is_kernels_submissions_only}",
+                f"Description: {c.description}",
+            ]
+            return "\n".join(lines)
+        except Exception:
+            pass
+
+        # Fallback: search by slug and return first match
+        try:
+            req2 = ApiListCompetitionsRequest()
+            req2.search = competition
+            resp = get_client().competitions.competition_api_client.list_competitions(req2)
+            comps = resp.competitions or []
+            # Exact slug match: ref ends with /<competition>
+            match = next(
+                (c for c in comps if (c.ref or "").rstrip("/").endswith("/" + competition)),
+                None,
+            )
+            if not match:
+                if not comps:
+                    return f"Competition '{competition}' not found."
+                candidates = "\n".join(
+                    f"- {c.title} → `{(c.ref or '').rstrip('/').split('/')[-1]}`"
+                    for c in comps[:5]
+                )
+                return f"Competition '{competition}' not found. Did you mean:\n{candidates}"
+            c = match
+            lines = [
+                f"**{c.title}** (`{c.ref}`)",
+                f"Category: {c.category} | Reward: {c.reward}",
+                f"Deadline: {c.deadline} | Teams: {c.team_count}",
+                f"Evaluation: {c.evaluation_metric}",
+            ]
+            return "\n".join(lines)
+        except Exception as e:
+            return f"Error fetching competition info: {e}"
+
+    @mcp.tool()
+    def competition_data_summary(competition: str) -> str:
+        """Get data files summary for a competition.
+
+        Args:
+            competition: Competition URL suffix (e.g. 'titanic').
+        """
+        try:
+            from kagglesdk.competitions.services.competition_api_service import (
+                ApiGetCompetitionDataFilesSummaryRequest,
+            )
+
+            req = ApiGetCompetitionDataFilesSummaryRequest()
+            req.competition_name = competition
+            resp = get_client().competitions.competition_api_client.get_competition_data_files_summary(req)
+            return str(resp.to_dict())
+        except Exception as e:
+            return f"Error fetching data summary: {e}"
+
+    @mcp.tool()
+    def competition_get_submission(competition: str, submission_id: int) -> str:
+        """Get details for a single submission.
+
+        Args:
+            competition: Competition URL suffix (unused in routing, kept for context).
+            submission_id: Numeric submission ID.
+        """
+        try:
+            from kagglesdk.competitions.services.competition_api_service import (
+                ApiGetSubmissionRequest,
+            )
+
+            req = ApiGetSubmissionRequest()
+            req.ref = submission_id
+            resp = get_client().competitions.competition_api_client.get_submission(req)
+            return str(resp.to_dict())
+        except Exception as e:
+            return f"Error fetching submission: {e}"
+
+    @mcp.tool()
+    def competition_leaderboard_download(competition: str) -> str:
+        """Download the full competition leaderboard. Returns download URL.
+
+        Args:
+            competition: Competition URL suffix (e.g. 'titanic').
+        """
+        try:
+            from kagglesdk.competitions.services.competition_api_service import (
+                ApiDownloadLeaderboardRequest,
+            )
+
+            req = ApiDownloadLeaderboardRequest()
+            req.competition_name = competition
+            resp = get_client().competitions.competition_api_client.download_leaderboard(req)
+            return f"Download URL: {resp.url}"
+        except Exception as e:
+            return f"Error downloading leaderboard: {e}"

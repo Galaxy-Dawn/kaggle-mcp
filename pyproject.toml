@@ -1,7 +1,7 @@
 [project]
 name = "kaggle-mcp-server"
-version = "0.1.0"
-description = "A full-featured MCP server wrapping the Kaggle API — 21 tools across competitions, datasets, kernels, models, and discussions"
+version = "0.2.0"
+description = "A full-featured MCP server wrapping the Kaggle API — 52 tools across competitions, datasets, kernels, models, benchmarks, and discussions"
 readme = "README.md"
 authors = [
     { name = "Gaorui Zhang", email = "1055783187@qq.com" }
@@ -23,6 +23,11 @@ dependencies = [
     "kaggle>=1.6",
     "mcp[cli]>=1.0",
     "httpx>=0.27",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
 ]
 
 [project.urls]

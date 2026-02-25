@@ -176,3 +176,158 @@ def register(mcp: FastMCP) -> None:
             headers={"Content-Type": "application/octet-stream"},
         )
         return f"Token: {resp.token}"
+
+    @mcp.tool()
+    def dataset_get(owner: str, dataset_slug: str) -> str:
+        """Get full dataset info.
+
+        Args:
+            owner: Dataset owner username.
+            dataset_slug: Dataset slug name.
+        """
+        try:
+            from kagglesdk.datasets.services.dataset_api_service import (
+                ApiGetDatasetRequest,
+            )
+
+            req = ApiGetDatasetRequest()
+            req.owner_slug = owner
+            req.dataset_slug = dataset_slug
+            resp = get_client().datasets.dataset_api_client.get_dataset(req)
+            return str(resp.to_dict())
+        except Exception as e:
+            return f"Error fetching dataset info: {e}"
+
+    @mcp.tool()
+    def dataset_create_version(
+        owner: str,
+        dataset_slug: str,
+        version_notes: str,
+        file_tokens: str = "",
+    ) -> str:
+        """Create a new version of an existing dataset.
+
+        Args:
+            owner: Dataset owner username.
+            dataset_slug: Dataset slug name.
+            version_notes: Notes describing this version.
+            file_tokens: Comma-separated file tokens from file_upload.
+        """
+        try:
+            from kagglesdk.datasets.services.dataset_api_service import (
+                ApiCreateDatasetVersionRequest,
+            )
+            from kagglesdk.datasets.types.dataset_api_service import (
+                ApiCreateDatasetVersionRequestBody,
+                ApiDatasetNewFile,
+            )
+
+            body = ApiCreateDatasetVersionRequestBody()
+            body.version_notes = version_notes
+            if file_tokens:
+                files = []
+                for t in file_tokens.split(","):
+                    f = ApiDatasetNewFile()
+                    f.token = t.strip()
+                    files.append(f)
+                body.files = files
+
+            req = ApiCreateDatasetVersionRequest()
+            req.owner_slug = owner
+            req.dataset_slug = dataset_slug
+            req.body = body
+            resp = get_client().datasets.dataset_api_client.create_dataset_version(req)
+            return str(resp.to_dict())
+        except Exception as e:
+            return f"Error creating dataset version: {e}"
+
+    @mcp.tool()
+    def dataset_update_metadata(
+        owner: str,
+        dataset_slug: str,
+        title: str = "",
+        description: str = "",
+        license_name: str = "",
+    ) -> str:
+        """Update dataset metadata (title, description, license).
+
+        Args:
+            owner: Dataset owner username.
+            dataset_slug: Dataset slug name.
+            title: New title (leave empty to keep current).
+            description: New description (leave empty to keep current).
+            license_name: New license name (leave empty to keep current).
+        """
+        try:
+            from kagglesdk.datasets.services.dataset_api_service import (
+                ApiUpdateDatasetMetadataRequest,
+            )
+            from kagglesdk.datasets.types.dataset_types import (
+                DatasetSettings,
+                SettingsLicense,
+            )
+
+            settings = DatasetSettings()
+            if title:
+                settings.title = title
+            if description:
+                settings.description = description
+            if license_name:
+                lic = SettingsLicense()
+                lic.name = license_name
+                settings.licenses = [lic]
+
+            req = ApiUpdateDatasetMetadataRequest()
+            req.owner_slug = owner
+            req.dataset_slug = dataset_slug
+            req.settings = settings
+            resp = get_client().datasets.dataset_api_client.update_dataset_metadata(req)
+            return str(resp.to_dict())
+        except Exception as e:
+            return f"Error updating dataset metadata: {e}"
+
+    @mcp.tool()
+    def dataset_delete(owner: str, dataset_slug: str) -> str:
+        """Delete a dataset.
+
+        Args:
+            owner: Dataset owner username.
+            dataset_slug: Dataset slug name.
+        """
+        try:
+            from kagglesdk.datasets.services.dataset_api_service import (
+                ApiDeleteDatasetRequest,
+            )
+
+            req = ApiDeleteDatasetRequest()
+            req.owner_slug = owner
+            req.dataset_slug = dataset_slug
+            resp = get_client().datasets.dataset_api_client.delete_dataset(req)
+            if resp.error:
+                return f"Error deleting dataset: {resp.error}"
+            return "Dataset deleted successfully."
+        except Exception as e:
+            return f"Error deleting dataset: {e}"
+
+    @mcp.tool()
+    def dataset_download_file(owner: str, dataset_slug: str, file_name: str) -> str:
+        """Download a single file from a dataset. Returns download URL.
+
+        Args:
+            owner: Dataset owner username.
+            dataset_slug: Dataset slug name.
+            file_name: Name of the specific file to download.
+        """
+        try:
+            from kagglesdk.datasets.services.dataset_api_service import (
+                ApiDownloadDatasetRequest,
+            )
+
+            req = ApiDownloadDatasetRequest()
+            req.owner_slug = owner
+            req.dataset_slug = dataset_slug
+            req.file_name = file_name
+            resp = get_client().datasets.dataset_api_client.download_dataset(req)
+            return f"Download URL: {resp.url}"
+        except Exception as e:
+            return f"Error downloading file: {e}"

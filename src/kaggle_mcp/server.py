@@ -2,11 +2,12 @@
 
 from mcp.server.fastmcp import FastMCP
 
-from . import competitions, datasets, discussions, kernels, models
+from . import benchmarks, competitions, datasets, discussions, kernels, models
 
 mcp = FastMCP("kaggle")
 
 # Register all tool modules
+benchmarks.register(mcp)
 competitions.register(mcp)
 datasets.register(mcp)
 kernels.register(mcp)
