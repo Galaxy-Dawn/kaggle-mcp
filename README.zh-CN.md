@@ -21,20 +21,21 @@ Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（
 
 | 功能 | kaggle-mcp | [Kaggle 官方 MCP](https://www.kaggle.com/docs/mcp) |
 |------|:----------:|:----------:|
-| 工具总数 | **51** | ~17 |
+| 工具总数 | **51** | **51+** |
 | 讨论区（10 个工具） | ✅ | ❌ |
-| Kernel Session 管理 | ✅ | ❌ |
-| 模型 CRUD + 实例管理 | ✅ | ❌ |
-| 数据集创建/版本/删除 | ✅ | ❌ |
-| 基准测试排行榜 | ✅ | ❌ |
+| Kernel Session 管理 | ✅ | ✅ |
+| 模型 CRUD + 实例管理 | ✅ | ✅ |
+| 数据集创建/版本管理 | ✅ | ✅ |
+| 基准测试排行榜 | ✅ | ✅ |
+| AI 驱动的基准任务创建 | ❌ | ✅ |
 | 架构 | 本地（stdio） | 远程 HTTP |
 | 安装 | `uvx kaggle-mcp-server` | 需要 `npx mcp-remote` |
 | 无远程 MCP 依赖 | ✅ | ❌ |
 | 认证方式 | API Token | OAuth 2.0 / Token |
 
-**适合使用 kaggle-mcp 的场景：** 需要讨论区工具、Kernel Session 管理、模型/数据集完整 CRUD，或需要无远程 MCP 依赖的原生 stdio 支持。
+**适合使用 kaggle-mcp 的场景：** 需要讨论区工具（官方 MCP 完全不支持），或希望使用无远程依赖的本地 stdio 架构。
 
-**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证，或希望零本地安装。
+**适合使用官方 MCP 的场景：** 偏好 OAuth 2.0 认证、希望零本地安装，或需要 AI 驱动的基准任务创建功能。
 
 <p align="center">
   <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">

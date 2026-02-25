@@ -21,20 +21,21 @@ Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp)
 
 | Feature | kaggle-mcp | [Kaggle Official MCP](https://www.kaggle.com/docs/mcp) |
 |---------|:----------:|:----------:|
-| Total tools | **51** | ~15 |
+| Total tools | **51** | **51+** |
 | Discussions (10 tools) | ✅ | ❌ |
-| Kernel session management | ✅ | ❌ |
-| Model CRUD + instances | ✅ | ❌ |
-| Dataset creation & file upload | ✅ | ❌ |
-| Benchmark leaderboard | ✅ | ❌ |
+| Kernel session management | ✅ | ✅ |
+| Model CRUD + instances | ✅ | ✅ |
+| Dataset creation & versioning | ✅ | ✅ |
+| Benchmark leaderboard | ✅ | ✅ |
+| Benchmark task creation (AI) | ❌ | ✅ |
 | Architecture | Local (stdio) | Remote HTTP |
 | Install | `uvx kaggle-mcp-server` | `npx mcp-remote` required |
 | No remote MCP dependency | ✅ | ❌ |
 | Auth | API token | OAuth 2.0 / token |
 
-**When to use kaggle-mcp:** You need discussion tools, dataset creation/upload, or native stdio support without remote MCP dependency.
+**When to use kaggle-mcp:** You need discussion tools (the official MCP has none), or prefer local stdio without a remote MCP dependency.
 
-**When to use the official MCP:** You prefer OAuth 2.0 auth or want zero local installation.
+**When to use the official MCP:** You prefer OAuth 2.0 auth, want zero local installation, or need AI-powered benchmark task creation.
 
 <p align="center">
   <img src="assets/architecture.svg" alt="kaggle-mcp architecture" width="700">
