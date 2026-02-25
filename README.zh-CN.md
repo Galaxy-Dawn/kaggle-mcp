@@ -4,7 +4,7 @@
 
 <!-- mcp-name: io.github.Galaxy-Dawn/kaggle-mcp -->
 
-全功能 Kaggle API MCP 服务器 — 涵盖竞赛、数据集、Notebook、模型、基准测试和讨论区的 51 个工具。
+全功能 Kaggle API MCP 服务器 — 涵盖竞赛、数据集、Notebook、模型、基准测试和讨论区。
 
 [![PyPI](https://img.shields.io/pypi/v/kaggle-mcp-server?color=blue)](https://pypi.org/project/kaggle-mcp-server/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -17,7 +17,7 @@
 
 ## 为什么选择 kaggle-mcp？
 
-Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`），涵盖竞赛、数据集、Notebook、模型和基准测试共 51+ 个工具，已能满足大多数 Kaggle 工作流需求。
+Kaggle 提供了[官方远程 MCP 服务器](https://www.kaggle.com/docs/mcp)（`https://www.kaggle.com/mcp`），涵盖竞赛、数据集、Notebook、模型和基准测试，已能满足大多数 Kaggle 工作流需求。
 
 **kaggle-mcp 在此基础上进行了扩展**，补充了官方服务器缺失的能力：**10 个讨论区工具**。你可以搜索讨论、按来源类型浏览、按时间过滤竞赛讨论、阅读解决方案 write-ups、探索热门话题等——这些功能在官方 MCP 中完全没有。
 

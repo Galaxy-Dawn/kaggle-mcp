@@ -4,7 +4,7 @@
 
 <!-- mcp-name: io.github.Galaxy-Dawn/kaggle-mcp -->
 
-A full-featured MCP server wrapping the Kaggle API — 51 tools across competitions, datasets, kernels, models, benchmarks, and discussions.
+A full-featured MCP server for the Kaggle API — competitions, datasets, kernels, models, benchmarks, and discussions.
 
 [![PyPI](https://img.shields.io/pypi/v/kaggle-mcp-server?color=blue)](https://pypi.org/project/kaggle-mcp-server/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -17,7 +17,7 @@ A full-featured MCP server wrapping the Kaggle API — 51 tools across competiti
 
 ## Why kaggle-mcp?
 
-Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`) with 51+ tools covering competitions, datasets, notebooks, models, and benchmarks — a solid foundation for most Kaggle workflows.
+Kaggle provides an [official remote MCP server](https://www.kaggle.com/docs/mcp) (`https://www.kaggle.com/mcp`) covering competitions, datasets, notebooks, models, and benchmarks — a solid foundation for most Kaggle workflows.
 
 **kaggle-mcp extends that foundation** with what the official server is missing: **10 discussion tools**. You can search discussions, browse by source type, filter competition discussions by recency, read solution write-ups, explore trending topics, and more — none of which are available in the official MCP.
 
